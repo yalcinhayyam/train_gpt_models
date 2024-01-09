@@ -1,21 +1,20 @@
 from langchain_experimental.llms import ChatLlamaAPI
-from langchain.document_loaders import TextLoader,PyPDFLoader
+from langchain.document_loaders import TextLoader
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.embeddings import GooglePalmEmbeddings
 from langchain.chat_models.openai import ChatOpenAI
-from langchain_google_genai import ChatGoogleGenerativeAI,GoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 import google.generativeai as genai
 from llamaapi import LlamaAPI
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from utilities.bard_llm import BardLLM
 import os
 load_dotenv()
 
 
-from utilities.bard_llm import BardLLM
 
 prompt_loader = TextLoader(file_path = "./data.txt",encoding='utf-8')
-# loader = PyPDFLoader("emirdag.pdf")
 index = VectorstoreIndexCreator(embedding=GooglePalmEmbeddings()).from_loaders([ prompt_loader ])
 
 
