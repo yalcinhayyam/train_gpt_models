@@ -107,7 +107,7 @@ function App() {
 
               <input
                 type="checkbox"
-                className="toggle toggle-primary border-2"
+                className="toggle toggle-info border-2"
                 checked={useRetrievalAG}
                 onChange={(e) => setUseRetrievalAG(e.target.checked)}
               />
