@@ -1,3 +1,30 @@
+### Kurulum
+``` sh
+pip install -r requirements.txt
+cd client && yarn 
+```
+### Çalıştırma
+``` sh
+uvicorn main:app --reload
+
+cd client & yarn dev
+```
+
+### Bard Token Hatası 
+
+  File ".\train_gpt_models\.venv\Lib\site-packages\bardapi\core.py", line 142, in _get_snim0e
+    raise Exception(
+Exception: __Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value.
+
+- Comment block this lines 141 -144
+
+    # if not self.token or self.token[-1] != ".":
+    #     raise Exception(
+    #         "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
+    #     )
+
+
+
 ## Popüler LLM' lerin Eğitilerek Karşılaştırılması
 
 > Llama tamamen ücretsiz olması ile birlikte daha fazla ayrıntı ve içerik sağlayarak en başarılı llm olarak belirlendi

@@ -21,6 +21,11 @@ const configs = [
     answeredBy: "Gpt-3.5-Turbo",
     border: "ring-fuchsia-400",
   },
+  {
+    model: "gpt-4",
+    answeredBy: "Gpt-4",
+    border: "ring-blue-400",
+  },
 ];
 const questions = [
   {
@@ -36,17 +41,20 @@ const questions = [
 function App() {
   // const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [useRetrievalAG, setUseRetrievalAG] = useState(false);
   const [value, setValue] = useState(null);
   const [loading, setLoading] = useState(false);
   const showQuestion = useMemo(() => results.length == 0, [results]);
   // const queryRef = useRef(null);
-
   const ask = async (model, query) => {
     const start = Date.now();
-    const result = await axios.post(`http://127.0.0.1:8000/ask`, {
-      model: model,
-      message: query,
-    });
+    const result = await axios.post(
+      `http://127.0.0.1:8000/${useRetrievalAG ? "rag" : "ask"}`,
+      {
+        model: model,
+        message: query,
+      }
+    );
 
     const finish = Date.now();
     const time = (finish - start) / 1000;
@@ -64,6 +72,7 @@ function App() {
         count = 0;
       }
     };
+    setResults([]);
     setLoading(true);
     configs.forEach((config) => {
       ask(config.model, query)
@@ -91,7 +100,19 @@ function App() {
     <>
       <main className="flex container md:max-w-[900px] mx-auto px-4 justify-center pt-5">
         <div className="flex container flex-col">
-          <h2 className="card-title">Whats My Problem!</h2>
+          <div className="flex justify-between">
+            <h2 className="card-title">Whats My Problem!</h2>
+            <label className="cursor-pointer label w-44 font-bold">
+              <span className="label-text">Use Retrieval AG</span>
+
+              <input
+                type="checkbox"
+                className="toggle toggle-primary border-2"
+                checked={useRetrievalAG}
+                onChange={(e) => setUseRetrievalAG(e.target.checked)}
+              />
+            </label>
+          </div>
 
           <Query
             handle={handle}
@@ -201,6 +222,14 @@ function Query({ setValue, value, handle, loading }) {
         onChange={(e) => setValue(e.target.value)}
         className="textarea textarea-bordered h-0 w-full"
         placeholder="Sorununuz nedir?"
+        onKeyDown={(e) => {
+          if (e.keyCode === 13 && e.shiftKey === false) {
+            e.preventDefault();
+            if (!disabled) {
+              handle(value);
+            }
+          }
+        }}
       ></textarea>
     </label>
   );
