@@ -18,10 +18,10 @@ Exception: __Secure-1PSID value must end with a single dot. Enter correct __Secu
 
 - Comment block this lines 141 -144
 
-    # if not self.token or self.token[-1] != ".":
-    #     raise Exception(
-    #         "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
-    #     )
+     if not self.token or self.token[-1] != ".":
+         raise Exception(
+             "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
+         )
 
 
 
