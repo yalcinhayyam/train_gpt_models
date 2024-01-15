@@ -196,7 +196,7 @@ function Query({ setValue, value, handle, loading }) {
         <span className="loading loading-spinner absolute right-4 bottom-3"></span>
       ) : (
         <button
-          className="btn btn-ghost absolute right-1 bottom-0 btn-link"
+          className="btn absolute right-1 bottom-0 btn-link"
           disabled={disabled}
           onClick={() => handle(value)}
         >
